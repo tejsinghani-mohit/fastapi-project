@@ -81,22 +81,23 @@ def delete_post_by_id(id: int, db: Session = Depends(get_db), current_user:int =
 
 # Update Post
 @router.put("/{id}", response_model=schemas.PostResponse)
-def update_post_by_id(id: int, post: schemas.PostCreate, db: Session = Depends(get_db), current_user:int = Depends(oauth2.get_current_user)):
+# @router.put("/{id}")
+def update_post_by_id(id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db), current_user:int = Depends(oauth2.get_current_user)):
     # cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s returning *""",
     #                 (post.title, post.content, post.published, str(id)))
     # updated_post=cursor.fetchone()
     # conn.commit()
     post_query = db.query(models.Post).filter(models.Post.id == id)
 
-    post_result = post_query.first()
+    post = post_query.first()
 
-    if post_result == None:
+    if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"post with id: {id} does not exist!")
     
     if post.owner_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
     
-    post_query.update(post.model_dump(), synchronize_session=False)
+    post_query.update(updated_post.model_dump(), synchronize_session=False)
     db.commit()
     return post_query.first()

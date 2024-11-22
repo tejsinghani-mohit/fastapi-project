@@ -29,8 +29,8 @@ class PostResponse(PostBase):
     owner_id: int
     owner: UserOut
 
-    # class Config:
-    #     orm_mode = True
+    class Config:
+        from_attributes = True
 
 class PostOut(BaseModel):
     Post: PostResponse
