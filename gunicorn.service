@@ -1,0 +1,14 @@
+[Unit]
+Description=gunicorn instance to server api
+After=network.target
+
+[Service]
+User=mk
+Group=mk
+WorkingDirectory=<path_to_folder_having_main_file>
+Environment="PATH=/<path>/venv/bin"
+EnvironmentFile=/<path>/.env
+ExecStart=/<path>/venv/bin/fastapi run --workers <any_number_of_worker_node_integer> main.py
+
+[Install]
+WantedBy=multi-user.target
