@@ -21,8 +21,9 @@ app.add_middleware(
 
 # Root Path
 @app.get("/", include_in_schema=False)
+# @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"message": "Hello World"}
 
 #Routers
 app.include_router(auth.router)
