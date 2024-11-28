@@ -4,6 +4,7 @@ from app import schemas
 
 def test_get_all_posts(authorized_client, test_posts):
     res = authorized_client.get("/posts/")
+    print(res.json())
 
     def validate(post):
         return schemas.PostOut(**post)
@@ -46,7 +47,7 @@ def test_create_post(authorized_client, test_user, test_posts, title, content, p
     res = authorized_client.post(
         "/posts/", json={"title": title, "content": content, "published": published})
 
-    created_post = schemas.Post(**res.json())
+    created_post = schemas.PostResponse(**res.json())
     assert res.status_code == 201
     assert created_post.title == title
     assert created_post.content == content
@@ -58,7 +59,7 @@ def test_create_post_default_published_true(authorized_client, test_user, test_p
     res = authorized_client.post(
         "/posts/", json={"title": "arbitrary title", "content": "aasdfjasdf"})
 
-    created_post = schemas.Post(**res.json())
+    created_post = schemas.PostResponse(**res.json())
     assert res.status_code == 201
     assert created_post.title == "arbitrary title"
     assert created_post.content == "aasdfjasdf"
@@ -106,7 +107,7 @@ def test_update_post(authorized_client, test_user, test_posts):
 
     }
     res = authorized_client.put(f"/posts/{test_posts[0].id}", json=data)
-    updated_post = schemas.Post(**res.json())
+    updated_post = schemas.PostResponse(**res.json())
     assert res.status_code == 200
     assert updated_post.title == data['title']
     assert updated_post.content == data['content']
