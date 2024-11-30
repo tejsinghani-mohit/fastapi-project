@@ -1,0 +1,20 @@
+name: Build and Deploy code
+
+# on:
+#   push:
+#     branches: ["main"]
+
+#Runs on all branches
+on: [push, pull_request]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: test step
+        run: echo "Hello World!"  
+
+
+
