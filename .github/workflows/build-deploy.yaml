@@ -84,15 +84,29 @@ jobs:
     steps:  
       - name: Check out repository code
         uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{secrets.PROD_HOST}} >> ~/.ssh/known_hosts 
+
       - name: deploy to ubuntu server
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{secrets.PROD_HOST}}
-          username: ${{secrets.PROD_USERNAME}}
-          password: ${{secrets.PROD_PASSWORD}}
-          script: |
-            cd app/src
-            git pull
-            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi
+        run: |
+          cd app/src
+          git pull
+          echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi
+
+      # - name: deploy to ubuntu server
+      #   uses: appleboy/ssh-action@v1.2.0
+      #   with:
+      #     host: ${{secrets.PROD_HOST}}
+      #     username: ${{secrets.PROD_USERNAME}}
+      #     password: ${{secrets.PROD_PASSWORD}}
+      #     script: |
+      #       cd app/src
+      #       git pull
+      #       echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi
 
 
