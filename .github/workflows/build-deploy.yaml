@@ -94,7 +94,9 @@ jobs:
       #       echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi  
 
       - name: executing remote ssh commands using password
-        run: sshpass -p mk123 ssh mk@192.168.0.185 whoami
+        run: |
+          sudo apt install sshpass
+          sshpass -p mk123 ssh mk@192.168.0.185 whoami
         # uses: appleboy/ssh-action@master
         # with:
         #   host: ${{secrets.PROD_HOST}}
