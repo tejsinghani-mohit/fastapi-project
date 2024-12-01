@@ -94,7 +94,7 @@ jobs:
 
       - name: deploy to ubuntu server
         run: |
-          ssh ${{ secrets.PROD_USERNAME} }@${{ secrets.PROD_HOST }} << 'EOF'
+          ssh ${{ secrets.PROD_USERNAME }}@${{ secrets.PROD_HOST }} << 'EOF'
           cd app/src
           git pull
           echo ${{ secrets.PROD_PASSWORD }} | sudo -S systemctl restart fastapi
