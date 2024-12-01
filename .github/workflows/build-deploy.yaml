@@ -93,17 +93,16 @@ jobs:
       #       git pull
       #       echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi  
 
-      - name: executing remote ssh commands using password
-        run: |
-          sudo apt install sshpass
-          sshpass -p mk123 ssh mk@192.168.0.185 
-          whoami
-        # uses: appleboy/ssh-action@master
-        # with:
-        #   host: ${{secrets.PROD_HOST}}
-        #   username: ${{secrets.PROD_USERNAME}}
-        #   key: ${{ secrets.KEY }}
-        #   script: whoami
+      - name: deploy to ubuntu server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.PROD_HOST}}
+          username: ${{secrets.PROD_USERNAME}}
+          password: ${{secrets.PROD_PASSWORD}}
+          script: |
+            cd app/src
+            git pull
+            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
 
 
 
