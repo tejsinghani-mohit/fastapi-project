@@ -94,7 +94,7 @@ jobs:
       #       echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi  
 
       - name: deploy to ubuntu server
-        uses: appleboy/ssh-action@1.0.3
+        uses: appleboy/ssh-action@1.0.2
         with:
           host: ${{secrets.PROD_HOST}}
           username: ${{secrets.PROD_USERNAME}}
