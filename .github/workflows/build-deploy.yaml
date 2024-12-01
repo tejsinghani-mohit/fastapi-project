@@ -90,13 +90,14 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{secrets.PROD_HOST}} >> ~/.ssh/known_hosts 
+          ssh-keyscan -H ${{ secrets.PROD_HOST }} >> ~/.ssh/known_hosts 
 
       - name: deploy to ubuntu server
         run: |
+          ssh ${{ secrets.PROD_USERNAME} }@${{ secrets.PROD_HOST }} << 'EOF'
           cd app/src
           git pull
-          echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi
+          echo ${{ secrets.PROD_PASSWORD }} | sudo -S systemctl restart fastapi
 
       # - name: deploy to ubuntu server
       #   uses: appleboy/ssh-action@v1.2.0
