@@ -96,7 +96,8 @@ jobs:
       - name: executing remote ssh commands using password
         run: |
           sudo apt install sshpass
-          sshpass -p mk123 ssh mk@192.168.0.185 whoami
+          sshpass -p mk123 ssh mk@192.168.0.185 
+          whoami
         # uses: appleboy/ssh-action@master
         # with:
         #   host: ${{secrets.PROD_HOST}}
