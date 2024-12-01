@@ -49,8 +49,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Test with Pytest
         run: pytest
-      - name: ping ubuntu vm
-        run: ping 192.168.0.185  
+      # - name: ping ubuntu vm
+      #   run: ping 192.168.0.185  
 
       # - name: Login to Docker Hub
       #   uses: docker/login-action@v3
