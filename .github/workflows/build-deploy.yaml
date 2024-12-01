@@ -76,14 +76,14 @@ jobs:
       # - name: Image digest
       #   run: echo ${{ steps.docker_build.outputs.digest }}
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: [build]
-  #   environment:
-  #     name: production
-  #   steps:  
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v4
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    environment:
+      name: production
+    steps:  
+      - name: Check out repository code
+        uses: actions/checkout@v4
   #     - name: deploy to ubuntu server
   #       uses: appleboy/ssh-action@v1.2.0
   #       with:
@@ -95,17 +95,14 @@ jobs:
   #           git pull
   #           echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi  
 
-      # - name: deploy to ubuntu server
-      #   uses: appleboy/ssh-action@v1.1.0
-      #   with:
-      #     host: 192.168.0.185
-      #     username: mk
-      #     password: mk123
-      #     port: 22
-      #     script: |
-      #       cd app/src
-      #       git pull
-      #       echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{secrets.PROD_HOST}}
+          username: ${{secrets.PROD_USERNAME}}
+          key: ${{ secrets.KEY }}
+          port: 22
+          script: whoami
 
 
 
