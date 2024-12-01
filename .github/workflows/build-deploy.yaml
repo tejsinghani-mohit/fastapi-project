@@ -82,16 +82,25 @@ jobs:
     steps:  
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: deploy to ubuntu server
+      # - name: deploy to ubuntu server
+      #   uses: appleboy/ssh-action@v1.2.0
+      #   with:
+      #     host: ${{secrets.PROD_HOST}}
+      #     username: ${{secrets.PROD_USERNAME}}
+      #     password: ${{secrets.PROD_PASSWORD}}
+      #     script: |
+      #       cd app/src
+      #       git pull
+      #       echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi  
+
+      - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{secrets.PROD_HOST}}
           username: ${{secrets.PROD_USERNAME}}
           password: ${{secrets.PROD_PASSWORD}}
-          script: |
-            cd app/src
-            git pull
-            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi  
+          port: 22
+          script: whoami
 
 
 
